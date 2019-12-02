@@ -13,13 +13,14 @@
 </head>
 
 <body>
-    {{> header}}
-
+    {% include "../partials/header.html" %}
     <div class="container">
-        {{> flash}}
-        {{{body}}}
+        {% include "../partials/flash.html" %}
+
+        {% block body %}
+        {% endblock %}
     </div>
-    {{> footer}}
+    {% include "../partials/footer.html" %}
     <script src="/js/lib/jquery.min.js"></script>
     <script src="/js/lib/popper.min.js"></script>
     <script src="/js/lib/bootstrap.min.js"></script>

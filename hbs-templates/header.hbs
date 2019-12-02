@@ -1,41 +1,24 @@
 <div class="navbar navbar-light fixed-top navbar-expand-lg">
-    <div class="container"><a href="/" class="navbar-brand"><i class="fas fa-cube"></i>Project name</a><button
-            type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggler"><span
-                class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="nav-item {{(title === 'Home') ? 'active' : undefined}}"><a href="/" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item {{(title === 'Contact') ? 'active' : undefined}}"><a href="/contact"
-                        class="nav-link">Contact</a></li>
-                <li class="nav-item {{(title === 'Status') ? 'active' : undefined}}"><a href="/status"
-                        class="nav-link">Status</a></li>
+  <div class="container"><a href="/" class="navbar-brand"><i class="fas fa-cube"></i>Project name</a><button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="nav-item {{(title === 'Home') ? 'active' : undefined}}"><a href="/" class="nav-link">Home</a></li>
+        <li class="nav-item {{(title === 'Contact') ? 'active' : undefined}}"><a href="/contact" class="nav-link">Contact</a></li>
+        <li class="nav-item {{(title === 'Status') ? 'active' : undefined}}"><a href="/status" class="nav-link">Status</a></li>
+      </ul>
+      <ul class="nav navbar-nav ml-auto">{{if ( !user)}}
+        {{else}}
+          <li class="dropdown {{(title === 'Account Management') ? 'active' : undefined}} nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link">{{#if user.profile.picture}}
+                <img src="{{user.profile.picture}}">
+              {{else}}
+                <img src="{{user.gravatar(60)}}">{{/if}}<span>{{user.profile.name || user.email || user.id}}</span><i class="caret"></i></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item"><a href="/account">My Account</a></li>
+              <li class="divider dropdown-item"></li>
+              <li class="dropdown-item"><a href="/logout">Logout</a></li>
             </ul>
-            <ul class="nav navbar-nav ml-auto">
-                {{#if (!user)}}
-                <li class="nav-item {{(title === 'Login') ? 'active' : undefined}}">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item {{title === 'Account Management') ? 'active' : undefined}}">
-                    <a class="nav-link" href="/signup">Create Account</a>
-                </li>
-                {{else}}
-                <li class="dropdown {{(title === 'Account Management') ? 'active' : undefined}} nav-item"><a href="#"
-                        data-toggle="dropdown" class="dropdown-toggle nav-link">
-                        {{#if user.profile.picture}}
-                        <img src="{{user.profile.picture}}">
-                        {{else}}
-                        <img
-                            src="{{user.gravatar(60)}}">{{/if}}<span>{{user.profile.name || user.email || user.id}}</span><i
-                            class="caret"></i></a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="/account">My Account</a></li>
-                        <li class="divider dropdown-item"></li>
-                        <li class="dropdown-item"><a href="/logout">Logout</a></li>
-                    </ul>
-                </li>
-                {{/if}}
-            </ul>
-        </div>
+          </li>{{/if}}
+      </ul>
     </div>
+  </div>
 </div>
