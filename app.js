@@ -18,8 +18,6 @@ const passport = require('passport')
 const expressStatusMonitor = require('express-status-monitor')
 const sass = require('node-sass-middleware')
 const multer = require('multer')
-const mustacheExpress = require('mustache-express')
-const hbs = require('express-handlebars')
 const nunjucks = require('nunjucks')
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') })
@@ -36,6 +34,7 @@ const homeController = require('./controllers/home')
 const userController = require('./controllers/user')
 const apiController = require('./controllers/api')
 const contactController = require('./controllers/contact')
+const fooController = require('./controllers/foo')
 
 /**
  * API keys and Passport configuration.
@@ -101,7 +100,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
+  if (req.path === '/api/upload' || req.path.includes('/foo')) {
     // Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
     next()
   } else {
@@ -110,6 +109,7 @@ app.use((req, res, next) => {
 })
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
+
 app.disable('x-powered-by')
 app.use((req, res, next) => {
   res.locals.user = req.user
@@ -217,6 +217,15 @@ app.get(
 )
 
 /**
+ * Users Controller Routes
+ */
+app.get('/foo', fooController.index)
+app.get('/foo/:id', fooController.show)
+app.put('/foo', fooController.store)
+// app.patch('/foo/:id', fooController.update)
+app.delete('/foo/:id', fooController.delete)
+
+/**
  * API examples routes.
  */
 app.get(
@@ -287,6 +296,12 @@ app.listen(app.get('port'), () => {
     app.get('env')
   )
   console.log('  Press CTRL-C to stop\n')
+})
+
+process.on('uncaughtException', function(err) {
+  console.error(new Date().toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
 })
 
 module.exports = app
